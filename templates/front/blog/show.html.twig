@@ -1,8 +1,65 @@
 {% extends 'layouts/front.html.twig' %}
 
+{% block title %}{{ article.title }} — Blog{% endblock %}
+
 {% block content %}
-    <h1>Blog - Show article</h1>
-    <p>Title: {{ article.title }}</p>
-    <p>Slug: {{ article.slug }}</p>
-    <p>Content: {{ article.content }}</p>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+
+      <!-- Hero / Header -->
+      <div class="d-flex align-items-center gap-3 mb-4">
+       
+        <div>
+          <h1 class="h3 mb-1">{{ article.title }}</h1>
+          <div class="text-muted small">
+            <span class="me-2">Slug: <strong>{{ article.slug }}</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Article card -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body p-4">
+          <div class="mb-3">
+            <span class="badge bg-secondary">{{ article.categoryName|default('Article') }}</span>
+          </div>
+
+          <div class="article-content text-body" style="line-height:1.8;">
+            {{ article.content|raw }}
+          </div>
+
+          <hr class="my-4">
+
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex gap-2">
+              <a href="{{ path('blog_home') }}" class="btn btn-outline-secondary btn-sm">← Back to blog</a>
+            </div>
+
+            <div class="d-flex gap-2">
+              {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin_article_edit', {id: article.id}) }}" class="btn btn-sm btn-primary">Edit</a>
+
+                <form action="{{ path('admin_article_delete', {id: article.id}) }}" method="post"
+                      onsubmit="return confirm('Delete this article?');" style="display:inline-block;">
+                  <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
+                  <input type="hidden" name="_method" value="DELETE">
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <!-- Footer small -->
+      <footer class="text-center text-muted small">
+        <div>Showing details for this article • <a href="{{ path('admin_article_index') }}" class="text-decoration-none">Manage articles</a></div>
+      </footer>
+
+    </div>
+  </div>
+</div>
 {% endblock %}

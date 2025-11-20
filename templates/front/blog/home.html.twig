@@ -1,0 +1,89 @@
+{# templates/home/index.html.twig #}
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}Home — Articles{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+  <div class="row mb-5 align-items-center">
+    <div class="col-md-8">
+      <h1 class="display-5">Welcome to the Articles</h1>
+      <p class="lead text-muted">Browse, read and manage articles. Use the links below to view the public blog or manage articles in the admin panel.</p>
+
+      <div class="mt-4">
+        <a href="{{ path('admin_article_index') }}" class="btn btn-primary">
+          Manage Articles (Admin)
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-4 text-center">
+      {# Uploaded image used as hero/logo (local path) #}
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Latest articles</h5>
+
+      <div class="row">
+        {% if articles|length > 0 %}
+          {% for article in articles|slice(0,6) %}
+            <div class="col-12 col-md-6 mb-3">
+              <div class="border rounded p-3 h-100 d-flex flex-column">
+                <div class="mb-2">
+                  <h6 class="mb-1">{{ article.title }}</h6>
+                  <small class="text-muted">Slug: {{ article.slug }}</small>
+                </div>
+
+                <p class="text-truncate mb-3" style="max-height:3.6em;">
+                  {{ article.content|striptags|length > 200 ? (article.content|striptags|slice(0,200) ~ '...') : article.content|striptags }}
+                </p>
+
+                <div class="mt-auto d-flex justify-content-between align-items-center">
+                  <a href="{{ path('blog_show', {slug: article.slug}) }}" class="btn btn-sm btn-outline-primary">Read</a>
+
+                  <div>
+                    <a href="{{ path('admin_article_edit', {id: article.id}) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <a href="{{ path('admin_article_delete', {id: article.id}) }}" class="btn btn-sm btn-outline-danger"
+                       onclick="event.preventDefault(); if(confirm('Delete this article?')) { document.getElementById('delete-form-{{ article.id }}').submit(); }">
+                      Delete
+                    </a>
+
+                    <form id="delete-form-{{ article.id }}" method="post" action="{{ path('admin_article_delete', {id: article.id}) }}" style="display:none;">
+                      <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
+                      <input type="hidden" name="_method" value="DELETE">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-12">
+            <div class="text-center py-5">
+              {# No articles found image #}
+              <img src="{{ asset('images/no-articles.svg') }}" 
+                   alt="No articles found" 
+                   class="mb-4" 
+                   style="max-width: 300px; opacity: 0.7;">
+              
+              <h4 class="text-muted mb-3">No Articles Found</h4>
+              <p class="text-muted mb-4">Get started by creating your first article!</p>
+              
+              <a href="{{ path('admin_article_create') }}" class="btn btn-primary">
+                Create First Article
+              </a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center text-muted small">
+    <div>Showing {{ articles|length }} articles</div>
+  </footer>
+</div>
+{% endblock %}
