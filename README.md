@@ -64,6 +64,12 @@ Run migrations:
 php bin/console doctrine:migrations:migrate
 ```
 
+Run local server:
+
+```
+php -S 127.0.0.1:8000 -t public
+```
+
 ## Configuration - Web Server
 
 You have to configure your web server (Linux / Nginx or Apache / MySQL or PostgreSQL / PHP).
