@@ -70,8 +70,6 @@ You have to configure your web server (Linux / Nginx or Apache / MySQL or Postgr
 
 ## After configuring your Web Server, you can run these demo URLs
 
-* http://www.your-domain.com/admin/articles
-
-* http://www.your-domain.com/admin/articles/create
+* http://127.0.0.1:8000//admin/articles
 
 And you can **Create** / **Read** (listing or show a single article) / **Update** / **Delete** articles.
