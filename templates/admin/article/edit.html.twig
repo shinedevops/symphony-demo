@@ -1,0 +1,56 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block content %}
+<div class="container py-5 d-flex justify-content-center">
+    <div class="col-12 col-md-6 col-lg-4">
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white text-center">
+                <div class="d-flex align-items-center justify-content-center gap-2">
+                    <img src="/mnt/data/fe022faa-3bcb-466b-8705-3157a2821d7f.png" alt="Logo" style="height:28px; width:auto;" class="rounded">
+                    <h5 class="mb-0"> {% trans %}article.title.edit{% endtrans %} </h5>
+                </div>
+            </div>
+
+            <div class="card-body">
+                {{ form_start(form, { 'attr': { 'novalidate': 'novalidate' } }) }}
+
+                <div class="mb-3">
+                    {{ form_label(form.title, null, { 'label_attr': { 'class': 'form-label' } }) }}
+                    {{ form_widget(form.title, { 'attr': { 'class': 'form-control' } }) }}
+                    {{ form_errors(form.title) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.slug, null, { 'label_attr': { 'class': 'form-label' } }) }}
+                    {{ form_widget(form.slug, { 'attr': { 'class': 'form-control' } }) }}
+                    {{ form_errors(form.slug) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.content, null, { 'label_attr': { 'class': 'form-label' } }) }}
+                    {{ form_widget(form.content, { 'attr': { 'class': 'form-control', 'rows': 5 } }) }}
+                    {{ form_errors(form.content) }}
+                </div>
+
+                <div class="d-grid">
+                    {# Render only the submit button from the form if defined, otherwise render a custom button.
+                       Use render_rest=false below to avoid duplicate buttons when the FormType already contains a submit field. #}
+                    {% if form.save is defined %}
+                        {{ form_widget(form.save, { 'attr': { 'class': 'btn btn-primary w-100' } }) }}
+                        {{ form_end(form, { 'render_rest': false }) }}
+                    {% else %}
+                        <button type="submit" class="btn btn-primary w-100">Save</button>
+                        {{ form_end(form) }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card-footer text-center">
+                <a href="{{ path('admin_article_index') }}" class="text-decoration-none">← {% trans %}article.back_to_index{% endtrans %}</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

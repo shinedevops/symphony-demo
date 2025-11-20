@@ -1,0 +1,47 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block content %}
+<div class="container py-5 d-flex justify-content-center">
+    <div class="col-12 col-md-6 col-lg-4">   {# SMALL FORM SIZE #}
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white text-center">
+                <h5 class="mb-0">Create Article</h5>
+            </div>
+
+            <div class="card-body">
+
+                {{ form_start(form) }}
+
+                <div class="mb-3">
+                    {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.slug, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.slug, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 3}}) }}
+                </div>
+
+                <button class="btn btn-primary w-100">Save</button>
+
+                {{ form_end(form) }}
+
+            </div>
+
+            <div class="card-footer bg-white text-center">
+                <a href="{{ path('admin_article_index') }}" class="text-decoration-none">
+                    ← Back to listing
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
